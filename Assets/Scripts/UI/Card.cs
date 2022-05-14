@@ -36,7 +36,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if(spawnTile != null){
             if(Input.GetMouseButton(0) && isPreviw == null){
                 isPreviw = Instantiate(unitPreview, spawnTile.position + spawnPositionOffset, spawnTile.rotation); //드래그 시 유닛 미리보기 생성
-                transform.GetComponent<Image>().color =new Color(0, 0, 0, 0);
+                transform.GetComponent<Image>().color = new Color(0, 0, 0, 0);
             }
             else if ((Input.GetMouseButtonUp(0) || Input.GetMouseButtonDown(0))){
                 GameObject unit_temp;
