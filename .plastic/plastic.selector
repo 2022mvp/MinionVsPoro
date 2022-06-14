@@ -1,0 +1,3 @@
+rep "MinionVsPoro@unity_2022mvp@cloud"
+  path "/"
+    smartbranch "/main"

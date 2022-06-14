@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class UnitBlueprint
+public class CardBlueprint
 {
+    public GameObject model;
     public string name;
-    public int damage;
+    public int price;
     public int attack_range;
-    public int attack_speed;
-    public int hp;
+    public Color previewColor;
 }
-

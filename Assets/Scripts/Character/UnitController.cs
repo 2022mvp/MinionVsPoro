@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SampleUnitController : MonoBehaviour
+public class UnitController : MonoBehaviour
 {
     public UnitBlueprint status;
 
