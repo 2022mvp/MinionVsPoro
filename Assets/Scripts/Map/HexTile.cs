@@ -148,10 +148,10 @@ public class HexTile : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
-            if (collider.tag == "Tile" && collider == tile.GetComponent<Collider>())
+            if (collider.tag == "Tile" && info) //collider == tile.GetComponent<Collider>())
             {
                 tile.GetComponent<HexTile>().UnitInstance(unit);
-                GameObject.Destroy(unit);
+                //GameObject.Destroy(unit);
             }
         }
     }
