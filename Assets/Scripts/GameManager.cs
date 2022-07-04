@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject enemy;
+
     public static GameManager instance;
 
     public Transform selectCard = null;
 
-    public Transform tile = null;
+    public Transform selectTile = null;
 
     public GameObject unit = null;
 
@@ -29,9 +31,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (selectCard != null && Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            tile = GetTile();
+            EnemySpawn();
         }
     }
 
@@ -47,5 +49,13 @@ public class GameManager : MonoBehaviour
             }
         }
         return temp;
+    }
+
+    public void EnemySpawn()
+    {
+        if (selectTile.GetComponent<HexTile>().unit == null)
+        {
+            selectTile.GetComponent<HexTile>().UnitInstance(enemy);
+        }
     }
 }

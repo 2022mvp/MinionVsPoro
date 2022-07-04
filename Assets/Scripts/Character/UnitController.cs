@@ -5,16 +5,24 @@ using UnityEngine;
 public class UnitController : MonoBehaviour
 {
     public UnitBlueprint status;
+    [HideInInspector]
+    public GameObject tile;
+
+    private bool info = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(status.hp <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
+
 }

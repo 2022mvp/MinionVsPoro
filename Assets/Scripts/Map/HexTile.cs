@@ -12,7 +12,10 @@ public class HexTile : MonoBehaviour
 
     private Vector3 spawnPointOffset;
     private bool preview = true;
-    private bool info = false;
+
+    private List<Transform> tiles = new List<Transform>();
+
+    bool info = false;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +26,22 @@ public class HexTile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (GameManager.instance.selectTile != transform && info && Input.GetMouseButtonDown(0) && unit)
+        {
+            if (GetTileInRange(GameManager.instance.selectTile, info))
+            {
+                ShowInfo(false);
+                if(GameManager.instance.selectTile.GetComponent<HexTile>().unit == null)
+                {
+                    GameManager.instance.selectTile.GetComponent<HexTile>().UnitMove(unit);
+                    ResetTileState();
+                }
+                else if(GameManager.instance.selectTile.GetComponent<HexTile>().unit.tag == "Enemy")
+                {
+                    GameManager.instance.selectTile.GetComponent<HexTile>().Attack(unit.GetComponent<UnitController>().status.damage);
+                }
+            }
+        }
     }
 
     void OnDrawGizmosSelected()
@@ -33,25 +51,15 @@ public class HexTile : MonoBehaviour
 
     }
 
-    public void OnMouseDown()
+    void OnMouseOver() //?¸?? ?§¿¡¼­?? ¸¶¿?½º ??·?¿¡ ??¶? ¹?¸®º¸±?¿? ??´? ??¼º
     {
-        if(!preview)
-        {
-            ShowInfo();
-            
-            UnitMove(unit.GetComponent<UnitController>().status.attack_range);
-        }
-    }
-
-    void OnMouseOver() //타일 위에서의 마우스 입력에 따라 미리보기와 유닛 생성
-    {
-        if(GameManager.instance.selectCard != null)
+        if (GameManager.instance.selectCard != null)
         {
             if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0))
             {
-                if(preview)
+                if (preview)
                 {
-                    ShowPreview(true);
+                    //ShowPreview(true);
                 }
             }
             else if (Input.GetMouseButtonUp(0))
@@ -61,11 +69,21 @@ public class HexTile : MonoBehaviour
         }
     }
 
-    private void OnMouseExit() //미리보기 종료
+    private void OnMouseExit() //¹?¸®º¸±? ?¾·?
     {
         if (GameManager.instance.selectCard != null && preview)
         {
-            ShowPreview(false);
+            //ShowPreview(false);
+        }
+    }
+
+    private void OnMouseDown()
+    {
+        GameManager.instance.selectTile = transform;
+        if (preview == false)
+        {
+            info = !info;
+            ShowInfo(info);
         }
     }
 
@@ -75,16 +93,24 @@ public class HexTile : MonoBehaviour
         spawnPointOffset = new Vector3(0.0f, 0.6f, 0.0f);
     }
 
-    public void ShowPreview(bool show) //미리보기 메소드
+    public void ResetTileState()
     {
+        unit = null;
+        preview = true;
+        info = false;
+    }
 
+    public void ShowPreview(bool show) //¹?¸®º¸±? ¸Þ¼???
+    {
         Material mat;
 
+        //TODO : ¾Æ·¡ ¹?¸®º¸±? ????¸? ¸¶¿?½º ?§ ?¸?? º?°æ½?, ¿?º??§Æ® Æ?±? ?? ´?½? ??¼º?? ¾Æ´? ?¹ ¹ø?° ??¼º ???? ¸¶¿?½º¸? ¶?´?¸? ??´? Æ?±?, ¾Æ´?¶?¸? ?§?¡¸¸ º?°æ??´?.
         if (show)
         {
             mat = previewMat;
-            if (unit == null)
+            if (GameManager.instance.unit == null)
             {
+                UpdateTileList(GameManager.instance.selectCard.GetComponent<Card>().status.attack_range);
                 GameObject obj = Instantiate(GameManager.instance.selectCard.GetComponent<Card>().status.model, transform.position + spawnPointOffset, transform.rotation);
                 obj.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().materials[1].color = GameManager.instance.selectCard.GetComponent<Card>().status.previewColor;
                 unit = obj;
@@ -93,34 +119,55 @@ public class HexTile : MonoBehaviour
         else
         {
             mat = originalMat;
-            GameObject.Destroy(unit);
+            if (Input.GetMouseButtonUp(0))
+            {
+                Destroy(unit);
+            }
         }
-
-        ShowRange(mat, GameManager.instance.selectCard.GetComponent<Card>().status.model.GetComponent<UnitController>().status.attack_range);
-
+        ShowRange(mat);
     }
 
-    public void ShowInfo() //유닛 정보 UI 메소드
+    public void ShowInfo(bool info) //??´? ?¤º¸ UI ¸Þ¼???
     {
         Material mat;
-        
-        info = !info;
-        
+
         if (info)
         {
-            mat = previewMat; //색 설정
-            //유닛 정보 UI 띄우기
+            mat = previewMat; //?? ¼³?¤
+            //??´? ?¤º¸ UI ¶?¿?±?
         }
         else
         {
             mat = originalMat;
-            //유닛 정보 UI 끄기
+            //??´? ?¤º¸ UI ²?±?
         }
-        ShowRange(mat, unit.GetComponent<UnitController>().status.attack_range);
+        ShowRange(mat);
     }
 
-    public void ShowRange(Material mat, float range) //타일 위 사거리 표시 메소드
+    public void ShowRange(Material mat) //?¸?? ?§ ??°?¸® ??½? ¸Þ¼???
     {
+        foreach (Transform tile in tiles)
+        {
+            if (tile != this)
+            {
+                tile.GetComponent<MeshRenderer>().material = mat;
+            }
+        }
+    }
+
+    public void UnitInstance(GameObject model) //??´? ??¼º ¸Þ¼???
+    {
+        UpdateTileList(model.GetComponent<UnitController>().status.attack_range);
+        preview = false;
+        //ShowPreview(false);
+        unit = Instantiate(model, transform.position + spawnPointOffset, transform.rotation);
+        GameManager.instance.selectCard = null;
+    }
+
+    public void UpdateTileList(int range)
+    {
+        tiles.Clear();
+
         Collider[] colliders = Physics.OverlapSphere(transform.position, 3f * range);
 
 
@@ -128,31 +175,33 @@ public class HexTile : MonoBehaviour
         {
             if (collider.tag == "Tile" && collider != this)
             {
-                collider.transform.GetComponent<MeshRenderer>().material = mat;
+                tiles.Add(collider.transform);
             }
         }
     }
 
-    public void UnitInstance(GameObject model) //유닛 생성 메소드
+    public bool GetTileInRange(Transform tile_, bool info)
     {
-        preview = false;
-        ShowPreview(false);
-        unit = Instantiate(model, transform.position + spawnPointOffset, transform.rotation);
-        GameManager.instance.selectCard = null;
-    }
-
-    public void UnitMove(float range) //"이동 가능한 범위"를 추가하여 색을 다르게 하는것도 좋을듯 합니다.
-    {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 3f * range);
-        Transform tile = GameManager.instance.GetTile();
-
-        foreach (Collider collider in colliders)
+        foreach (Transform tile in tiles)
         {
-            if (collider.tag == "Tile" && info) //collider == tile.GetComponent<Collider>())
+            if (tile == tile_ && info)
             {
-                tile.GetComponent<HexTile>().UnitInstance(unit);
-                //GameObject.Destroy(unit);
+                return true;
             }
         }
+        return false;
+    }
+
+    public void UnitMove(GameObject unit_) //"???¿ °¡´??? ¹??§"¸? ?ß°¡??¿? ???? ´?¸?°? ??´?°??? ?????? ??´?´?.
+    {
+        unit = unit_;
+        unit.transform.position = transform.position + spawnPointOffset;
+        UpdateTileList(unit.GetComponent<UnitController>().status.attack_range);
+        preview = false;
+    }
+
+    public void Attack(int damage)
+    {
+        unit.GetComponent<UnitController>().status.hp -= damage;
     }
 }
