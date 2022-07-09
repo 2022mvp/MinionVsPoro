@@ -35,6 +35,10 @@ public class GameManager : MonoBehaviour
         {
             EnemySpawn();
         }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+
+        }
     }
 
     public Transform GetTile()
