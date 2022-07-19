@@ -695,7 +695,7 @@ MonoBehaviour:
     damage: 1
     attack_range: 2
     attack_speed: 1
-    hp: 5
+    hp: 3
   tile: {fileID: 0}
 --- !u!1 &6198808879406133367
 GameObject:

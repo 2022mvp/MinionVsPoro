@@ -101,6 +101,7 @@ MonoBehaviour:
     attack_range: 2
     attack_speed: 1
     hp: 5
+  tile: {fileID: 0}
 --- !u!1 &932585352192663687
 GameObject:
   m_ObjectHideFlags: 0

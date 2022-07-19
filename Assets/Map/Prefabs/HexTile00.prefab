@@ -127,4 +127,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewMat: {fileID: 2100000, guid: 17e17a69b142c334d87fa7325bac00c4, type: 2}
+  enemyMat: {fileID: 2100000, guid: d135be453d81d254096da2fd7b07f778, type: 2}
   unit: {fileID: 0}
+  info: 0

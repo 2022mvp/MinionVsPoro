@@ -6,6 +6,7 @@ public class HexTile : MonoBehaviour
 {
 
     public Material previewMat;
+    public Material enemyMat;
     private Material originalMat;
 
     public GameObject unit = null;
@@ -15,7 +16,7 @@ public class HexTile : MonoBehaviour
 
     private List<Transform> tiles = new List<Transform>();
 
-    bool info = false;
+    public bool info = false;
 
     // Start is called before the first frame update
     void Start()
@@ -33,14 +34,22 @@ public class HexTile : MonoBehaviour
                 ShowInfo(false);
                 if(GameManager.instance.selectTile.GetComponent<HexTile>().unit == null)
                 {
+                    ShowInfo(false);
                     GameManager.instance.selectTile.GetComponent<HexTile>().UnitMove(unit);
                     ResetTileState();
                 }
                 else if(GameManager.instance.selectTile.GetComponent<HexTile>().unit.tag == "Enemy")
                 {
+                    GameManager.instance.selectTile.GetComponent<HexTile>().ShowInfo(false);
                     GameManager.instance.selectTile.GetComponent<HexTile>().Attack(unit.GetComponent<UnitController>().status.damage);
+                    unit.transform.GetComponent<UnitController>().status.hp -= GameManager.instance.selectTile.GetComponent<HexTile>().unit.transform.GetComponent<UnitController>().status.damage;
                 }
             }
+        }
+        if(Input.GetMouseButtonDown(0) && GameManager.instance.selectTile != transform && info)
+        {
+            info = false;
+            ShowInfo(false);
         }
     }
 
@@ -121,6 +130,7 @@ public class HexTile : MonoBehaviour
             mat = originalMat;
             if (Input.GetMouseButtonUp(0))
             {
+                ShowRange(mat);
                 Destroy(unit);
             }
         }
@@ -150,9 +160,21 @@ public class HexTile : MonoBehaviour
         {
             if (tile != this)
             {
-                tile.GetComponent<MeshRenderer>().material = mat;
+                if(tile.GetComponent<HexTile>().unit != null && tile.GetComponent<HexTile>().unit.tag == "Enemy" && mat == previewMat)
+                {
+                    tile.GetComponent<HexTile>().SetColor(enemyMat);
+                }
+                else
+                {
+                    tile.GetComponent<HexTile>().SetColor(mat);
+                }
             }
         }
+    }
+
+    public void SetColor(Material mat)
+    {
+        GetComponent<MeshRenderer>().material = mat;
     }
 
     public void UnitInstance(GameObject model) //??´? ??¼º ¸Þ¼???
@@ -173,7 +195,7 @@ public class HexTile : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
-            if (collider.tag == "Tile" && collider != this)
+            if (collider.tag == "Tile")
             {
                 tiles.Add(collider.transform);
             }
@@ -196,12 +218,13 @@ public class HexTile : MonoBehaviour
     {
         unit = unit_;
         unit.transform.position = transform.position + spawnPointOffset;
-        UpdateTileList(unit.GetComponent<UnitController>().status.attack_range);
         preview = false;
+        UpdateTileList(unit.GetComponent<UnitController>().status.attack_range);
     }
 
     public void Attack(int damage)
     {
         unit.GetComponent<UnitController>().status.hp -= damage;
+        Debug.Log("남은 체력 : " + unit.GetComponent<UnitController>().status.hp);
     }
 }

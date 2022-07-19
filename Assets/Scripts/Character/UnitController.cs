@@ -21,6 +21,7 @@ public class UnitController : MonoBehaviour
     {
         if(status.hp <= 0)
         {
+            //tile.transform.GetComponent<HexTile>().ShowRange(tile.transform.GetComponent<HexTile>().originalMat);
             Destroy(gameObject);
         }
     }
