@@ -9,29 +9,40 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public float speed;
     private Vector3 cardPosition;
 
+    private Image cardImage;
     public CardBlueprint status;
+    public GameObject preview;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        cardImage = GetComponent<Image>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        ViewPrewview();
+        
     }
 
-    public void ViewPrewview()
+    public void ViewPreview()
     {
-        if (Input.GetMouseButton(0) && GameManager.instance.selectCard == this.transform)
+        int layerMask = 1 << LayerMask.NameToLayer("Tile");
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, layerMask))
         {
-            transform.GetComponent<Image>().enabled = false;
+            if (preview == null)
+            {
+                preview = Instantiate(status.model, hit.transform.position + new Vector3(0.0f, 0.6f, 0.0f), hit.transform.rotation);
+            }
+            preview.transform.position = hit.transform.position + new Vector3(0.0f, 0.6f, 0.0f);
+            cardImage.enabled = false;
         }
         else
         {
-            transform.GetComponent<Image>().enabled = true;
+            cardImage.enabled = true;
+            Destroy(preview);
+            preview = null;
         }
     }
 
@@ -44,6 +55,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         if (GameManager.instance.selectCard == this.transform)
         {
+            ViewPreview();
             transform.position = eventData.position;
         }
     }
@@ -57,6 +69,9 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        cardImage.enabled = true; //카드 사용 후 삭제 부분(현재는 다시 보이도록 설정하였음)
         iTween.MoveTo(gameObject, cardPosition, 0.5f);
+        Destroy(preview);
+        preview = null;
     }
 }

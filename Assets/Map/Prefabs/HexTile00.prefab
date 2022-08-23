@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7585184472224916551}
   - component: {fileID: 2358412325030808287}
   - component: {fileID: 6675377912006903859}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HexTile00
   m_TagString: Tile
   m_Icon: {fileID: 0}
