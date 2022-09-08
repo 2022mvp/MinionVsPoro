@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cMinion : MonoBehaviour
+public class CPlayer : MonoBehaviour
 {
+    public SPlayerStatus sPlayerStatus;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        Init();
     }
 
     // Update is called once per frame
@@ -15,4 +17,11 @@ public class cMinion : MonoBehaviour
     {
         
     }
+
+    public void Init()
+    {
+        sPlayerStatus = new SPlayerStatus();
+    }
+
+
 }

@@ -1,65 +1,75 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject enemy;
-
-    public static GameManager instance;
-
-    public Transform selectCard = null;
-
-    public Transform selectTile = null;
-
-    public GameObject unit = null;
-
-    int money = 0;
+    // Singleton 패턴 적용
+    private static GameManager _instance;
+    public static GameManager Instance
+    {
+        get{ return _instance; }
+    }
 
     private void Awake()
     {
-        instance = this;
+        _instance = this;
+        DontDestroyOnLoad(this.gameObject);
+        Init();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private CPlayer _cPlayer;
+    public CPlayer cPlayer
     {
-        
+        get { return _cPlayer; }
+        set { _cPlayer = value; }
     }
 
-    // Update is called once per frame
-    void Update()
+    private CHexTileMap _cHexTileMap;
+    public CHexTileMap cHexTileMap
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            EnemySpawn();
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
+        get { return _cHexTileMap; }
+        set { _cHexTileMap = value; }
+    }
 
+    private Color[] _arTileColors;
+    public Color[] arTileColors
+    {
+        get { return _arTileColors; }
+        set { _arTileColors = value; }
+    }
+
+    private void Init()
+    {
+        InitPlayer();
+        InitMap();
+        InitTileColors();
+    }
+
+    private void InitPlayer()
+    {
+        if(_cPlayer == null)
+        {
+            _cPlayer = GameObject.Find("Player").GetComponent<CPlayer>();
         }
     }
 
-    public Transform GetTile()
+    private void InitMap()
     {
-        RaycastHit rayHit;
-        Transform temp = null;
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out rayHit))
+        if (_cHexTileMap == null)
         {
-            if(rayHit.transform.tag == "Tile")
-            {
-                temp = rayHit.transform;
-            }
+            _cHexTileMap = GameObject.Find("HexagonTileMap").GetComponent<CHexTileMap>();
         }
-        return temp;
     }
 
-    public void EnemySpawn()
+    private void InitTileColors()
     {
-        if (selectTile.GetComponent<HexTile>().unit == null)
-        {
-            selectTile.GetComponent<HexTile>().UnitInstance(enemy);
-        }
+        arTileColors = new Color[(int)EHexTileColor.Max];
+        arTileColors[(int)EHexTileColor.Default] = Color.white;
+        arTileColors[(int)EHexTileColor.Move] = Color.yellow;
+        arTileColors[(int)EHexTileColor.Enemy] = Color.red;
+        arTileColors[(int)EHexTileColor.Ally] = Color.green;
+        arTileColors[(int)EHexTileColor.OnMouse] = Color.cyan;
+        arTileColors[(int)EHexTileColor.Selected] = Color.blue;
     }
 }

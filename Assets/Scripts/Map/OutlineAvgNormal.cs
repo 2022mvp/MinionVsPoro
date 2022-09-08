@@ -60,4 +60,19 @@ public class OutlineAvgNormal : MonoBehaviour
             outlineObj.transform.localScale = Vector3.one;
         }
     }
+
+    public void SetOutlineColor(Color color)
+    {
+        if(outlineMat == null)
+        {
+            return;
+        }
+
+        outlineMat.SetColor("_Color", color);
+    }
+
+    public Color GetOutlineColor()
+    {
+        return outlineMat.GetColor("_Color");
+    }
 }

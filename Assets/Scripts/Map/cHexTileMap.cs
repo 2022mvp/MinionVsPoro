@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cHexTileMap : MonoBehaviour
+public class CHexTileMap : MonoBehaviour
 {
 	public GameObject _HexTilePrefab;
 	public int _col_Size = 8, _row_Size = 8;
@@ -19,13 +19,13 @@ public class cHexTileMap : MonoBehaviour
 
 	private void Awake()
 	{
-		Debug.Log(_ObjectTileArray);
+		//Debug.Log(_ObjectTileArray);
 		//_HexTilePrefab.SetActive(false);
 		for (int col = 0; col < _col_Size; col++)
 		{
 			for (int row = 0; row < _row_Size; row++)
 			{
-				_HexTile[col, row] = Instantiate(_HexTilePrefab, MoveCreateHexTransform(col, row), Quaternion.identity);
+				_HexTile[col, row] = Instantiate(_HexTilePrefab, MoveCreateHexTransform(col, row), Quaternion.identity, this.transform);
 				//_HexTile[col_rand, row_rand] = Instantiate(_ObjectTile);
 			}
 		}
@@ -56,5 +56,16 @@ public class cHexTileMap : MonoBehaviour
 		//	_ObjectTileArray
 
 		//}
+	}
+
+	public void ResetAllTilesColor()
+    {
+		for (int col = 0; col < _col_Size; col++)
+		{
+			for (int row = 0; row < _row_Size; row++)
+			{
+				_HexTile[col, row].GetComponent<CHexTile>().InitColor();
+			}
+		}
 	}
 }
