@@ -40,6 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 74310784025098882}
   - component: {fileID: 6334363003159716088}
+  - component: {fileID: 6581271059847265177}
   m_Layer: 0
   m_Name: Poro_Normal
   m_TagString: Untagged
@@ -82,6 +83,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6581271059847265177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739665589160353848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4289a553e12115439f9748d55ac0ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sStatus:
+    name: 
+    damage: 0
+    attack_range: 0
+    attack_speed: 0
+    hp: 0
 --- !u!1 &932585352192663687
 GameObject:
   m_ObjectHideFlags: 0
