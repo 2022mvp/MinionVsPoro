@@ -15,7 +15,7 @@ public class CUnit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void InitStatus(string _name, int _damage, int _attack_range, int _attack_speed, int _hp)
@@ -27,8 +27,29 @@ public class CUnit : MonoBehaviour
         sStatus.hp = _hp;
     }
 
-    public void moveUnit(Vector3 location)
+    public void MoveUnit(Vector3 vecTileLocation)
     {
+        Vector3 movePosition = new Vector3(0.0f, 0.6f, 0.0f);
+        this.transform.position = vecTileLocation + movePosition;
+    }
 
+    public void AttackUnit(CUnit cUnitEnemy)
+    {
+        cUnitEnemy.TakeDamage(sStatus.damage);
+    }
+
+    public void TakeDamage(int nDamage)
+    {
+        sStatus.hp -= nDamage;
+
+        if (sStatus.hp <= 0)
+        {
+            Dead();
+        }
+    }
+
+    public void Dead()
+    {
+        Destroy(this.gameObject);
     }
 }

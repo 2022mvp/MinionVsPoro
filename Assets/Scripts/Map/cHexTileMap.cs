@@ -59,7 +59,7 @@ public class CHexTileMap : MonoBehaviour
 	}
 
 	public void ResetAllTilesColor()
-    {
+	{
 		for (int col = 0; col < _col_Size; col++)
 		{
 			for (int row = 0; row < _row_Size; row++)

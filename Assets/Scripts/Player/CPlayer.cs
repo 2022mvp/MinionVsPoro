@@ -15,7 +15,7 @@ public class CPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Init()

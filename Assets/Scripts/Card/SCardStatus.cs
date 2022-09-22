@@ -6,8 +6,7 @@ using UnityEngine;
 public struct SCardStatus
 {
     public GameObject model;
-    public string name;
+    public SUnitStatus sUnitStatus;
     public int price;
-    public int attack_range;
     public Color previewColor;
 }
