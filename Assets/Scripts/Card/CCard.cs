@@ -7,9 +7,9 @@ using UnityEngine.EventSystems;
 public class CCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public SCardStatus sCardStatus;
-    public GameObject preview;
     public GameObject prefabUnit;
 
+    private GameObject preview;
     private Vector3 cardPosition;
     private Image cardImage;
     private Vector3 spawnPosition;
@@ -24,7 +24,7 @@ public class CCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private bool RayCastTile(out RaycastHit hit)
@@ -60,7 +60,7 @@ public class CCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
 
     public void OnDrag(PointerEventData eventData)
     {
-        if(RayCastTile(out RaycastHit hit))
+        if (RayCastTile(out RaycastHit hit))
         {
             ViewPreview(hit);
         }
@@ -89,7 +89,7 @@ public class CCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
     public void SpawnUnit(CHexTile tile)
     {
         GameObject unit = Instantiate(prefabUnit, tile.transform.position + spawnPosition, tile.transform.rotation);
-        // To do : 유닛 능력치 세팅하기
+        unit.GetComponent<CUnit>().sStatus = sCardStatus.sUnitStatus;
         tile.SetUnit(unit.GetComponent<CUnit>());
     }
 }
