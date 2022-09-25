@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5140130781297361146}
-  - component: {fileID: -8408808469117469195}
+  - component: {fileID: 5875967812540882168}
   m_Layer: 0
   m_Name: HexTileMap
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-8408808469117469195
+--- !u!114 &5875967812540882168
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
