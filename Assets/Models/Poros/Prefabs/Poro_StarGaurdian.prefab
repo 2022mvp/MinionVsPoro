@@ -729,6 +729,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5454899282130656861}
   - component: {fileID: 2113205455652357159}
+  - component: {fileID: -4563548924449854818}
   m_Layer: 0
   m_Name: Poro_StarGaurdian
   m_TagString: Untagged
@@ -771,6 +772,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-4563548924449854818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4681598819452716263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4289a553e12115439f9748d55ac0ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sStatus:
+    name: 
+    damage: 0
+    attack_range: 0
+    attack_speed: 0
+    hp: 0
 --- !u!1 &4976304495762117552
 GameObject:
   m_ObjectHideFlags: 0

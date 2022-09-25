@@ -40,7 +40,7 @@ public class CHexTile : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     private void InitOutline()
@@ -66,7 +66,7 @@ public class CHexTile : MonoBehaviour
 
         Ray raySearch = new Ray(rayOrigin, rayDirection * nSideLength);
         RaycastHit raycastHit;
-        
+
         if (Physics.Raycast(raySearch, out raycastHit))
         {
             return raycastHit.collider.gameObject.GetComponent<CHexTile>();
@@ -77,7 +77,7 @@ public class CHexTile : MonoBehaviour
 
     public void SetOutlineColor(Color color)
     {
-        if(outline == null)
+        if (outline == null)
         {
             return;
         }
@@ -136,7 +136,7 @@ public class CHexTile : MonoBehaviour
 
     public bool IsUnitOn()
     {
-        if(cUnit != null)
+        if (cUnit != null)
         {
             return true;
         }
@@ -152,5 +152,22 @@ public class CHexTile : MonoBehaviour
     public void SetUnit(CUnit unit)
     {
         cUnit = unit;
+    }
+
+    public void SearchTileInRange(HashSet<CHexTile> hsetTilesInRange, int nRange)
+    {
+        if (nRange <= 0)
+        {
+            return;
+        }
+
+        for (int nDir = 0; nDir < (int)EHexTileDirection.Max; nDir++)
+        {
+            if (arNearTiles[nDir] != null)
+            {
+                hsetTilesInRange.Add(arNearTiles[nDir]);
+                arNearTiles[nDir].SearchTileInRange(hsetTilesInRange, nRange - 1);
+            }
+        }
     }
 }

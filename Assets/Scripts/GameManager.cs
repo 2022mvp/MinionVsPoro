@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public static GameManager Instance
     {
-        get{ return _instance; }
+        get { return _instance; }
     }
 
     private void Awake()
@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     private void InitPlayer()
     {
-        if(_cPlayer == null)
+        if (_cPlayer == null)
         {
             _cPlayer = GameObject.Find("Player").GetComponent<CPlayer>();
         }
