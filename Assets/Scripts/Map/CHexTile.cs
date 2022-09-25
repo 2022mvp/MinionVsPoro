@@ -48,7 +48,7 @@ public class CHexTile : MonoBehaviour
         outline = this.GetComponent<OutlineAvgNormal>();
     }
 
-    // ÁÖº¯ Å¸ÀÏ ¾÷µ¥ÀÌÆ®, ¸Ê »ı¼º ÈÄ ¹İµå½Ã ÇÑ¹ø È£Ãâ
+    // ì£¼ë³€ íƒ€ì¼ ì—…ë°ì´íŠ¸, ë§µ ìƒì„± í›„ ë°˜ë“œì‹œ í•œë²ˆ í˜¸ì¶œ
     public void UpdateNearTiles()
     {
         arNearTiles = new CHexTile[(int)EHexTileDirection.Max];
